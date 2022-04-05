@@ -1,0 +1,1 @@
+# Make sure `templates/base` base part is same as the root/base name
