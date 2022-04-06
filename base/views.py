@@ -9,11 +9,15 @@ from .forms import RoomForm
 #     {'id': 2, 'name': 'Room 2', },
 #     {'id': 3, 'name': 'Room 3', },
 # ]
+# 2.14.57
 
 
 def home(request):
-    rooms = Room.objects.all()
+    queryString = request.GET.get('q') if request.GET.get('q') != None else ''
+    rooms = Room.objects.filter(topic__name__icontains=queryString, name__icontains=queryString)
+        # icontains is case_sensitive
     topics = Topic.objects.all()
+
     context = {'rooms': rooms, 'topics': topics}
     return render(request, 'base/home.html', context)
 
@@ -35,6 +39,7 @@ def createRoom(request):
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
+
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
@@ -45,6 +50,7 @@ def updateRoom(request, pk):
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
 
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
