@@ -51,6 +51,12 @@ def logoutUser(request):
     return redirect('home')
 
 
+def registerPage(request):
+    page = 'register'
+    context = {'page': page}
+    return render(request, 'base/login_register.html', context)
+
+
 def home(request):
     queryString = request.GET.get('q') if request.GET.get('q') != None else ''
     rooms = Room.objects.filter(
