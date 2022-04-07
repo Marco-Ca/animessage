@@ -18,7 +18,7 @@ class Room(models.Model):
     # null true means that the field is optional
     # blank true means that the field is allowed to be blank
     description = models.TextField(null=True, blank=True)
-    # participants =
+    participants = models.ManyToManyField(User, related_name='participants')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     
