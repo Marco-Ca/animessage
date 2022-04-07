@@ -17,7 +17,7 @@ from .forms import RoomForm
 #     {'id': 3, 'name': 'Room 3', },
 # ]
 
-# TIME 2.38.40
+# TIME 30125
 
 
 def loginPage(request):
@@ -28,7 +28,7 @@ def loginPage(request):
         return redirect('home')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         try:
@@ -56,6 +56,18 @@ def registerPage(request):
     page = 'register'
     form = UserCreationForm()
     context = {'page': page, 'form': form}
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            messages.success(request, 'User created successfully')
+            login(request, user)
+            return redirect('login')
+        else:
+            messages.error(request, 'User creation failed')
     return render(request, 'base/login_register.html', context)
 
 
