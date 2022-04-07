@@ -20,7 +20,9 @@ from .forms import RoomForm
 
 
 def loginPage(request):
-
+    page = 'login'
+    if 'register' in request.path:
+        page = 'register'
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -40,7 +42,7 @@ def loginPage(request):
             return redirect('home')
         else:
             messages.error(request, 'Username and/or Password is incorrect')
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 
