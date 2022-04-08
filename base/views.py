@@ -78,12 +78,13 @@ def home(request):
         Q(name__icontains=queryString) |
         Q(description__icontains=queryString)
     )
+    room_messages = Message.objects.all().order_by('-created')
     # icontains is case_sensitive
     topics = Topic.objects.all()
     # get room length
     room_count = rooms.count()
 
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, }
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
     return render(request, 'base/home.html', context)
 
 
@@ -100,7 +101,8 @@ def room(request, pk):
         room.participants.add(request.user)
         return redirect('room', pk=room.id)
 
-    context = {'room': room, 'room_messages': room_messages, 'participants': participants}
+    context = {'room': room, 'room_messages': room_messages,
+               'participants': participants}
     return render(request, 'base/room.html', context)
 
 
