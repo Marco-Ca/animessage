@@ -39,20 +39,6 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="activity">
-            <h3>Recent Activities</h3>
-            <hr />
-            {% for post in recent_posts %}
-                <div>
-                    <small>{{ post.user }} {{ post.created|timesince }}</small>
-                    <small>replied to {{ post.room }}</small>
-                    <p>{{ post }}</p>
-                    {% if request.user == post.user %}
-                    <a href="{% url 'delete-message' post.id %}?q=home">Delete</a>
-                    {% endif %}
-                    <hr />
-                </div>
-            {% endfor %}
-        </div>
+        <div class="activity">{% include 'base/activity_component.html' %}</div>
     </div>
 {% endblock content %}
