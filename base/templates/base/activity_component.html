@@ -2,7 +2,7 @@
 <hr />
 {% for post in recent_posts %}
     <div>
-        <small>{{ post.user }} {{ post.created|timesince }}</small>
+        <small><a href="{% url 'user-profile' post.user.id %}">{{ post.user }}</a> {{ post.created|timesince }}</small>
         <small>replied to {{ post.room }}</small>
         <p>{{ post }}</p>
         {% if request.user == post.user %}
