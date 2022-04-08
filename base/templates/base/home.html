@@ -8,16 +8,7 @@
     </style>
     <div class="home-container">
         <div class="topics">
-            <h3>Browse Topics</h3>
-            <hr />
-            <div>
-                <a href="{% url 'home' %}">All</a>
-            </div>
-            {% for topic in topics %}
-                <div>
-                    <a href="{% url 'home' %}?q={{ topic.name }}">{{ topic.name }}</a>
-                </div>
-            {% endfor %}
+            {% include 'base/topic_component.html' %}
         </div>
         <div class="rooms">
             <h5>{{ room_count }} rooms available</h5>
@@ -39,6 +30,8 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="activity">{% include 'base/activity_component.html' %}</div>
+        <div class="activity">
+            {% include 'base/activity_component.html' %}
+        </div>
     </div>
 {% endblock content %}
