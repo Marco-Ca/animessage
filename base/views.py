@@ -78,14 +78,14 @@ def home(request):
         Q(name__icontains=queryString) |
         Q(description__icontains=queryString)
     )
-    recent_posts = Message.objects.all()
     # icontains is case_sensitive
     topics = Topic.objects.all()
     # get room length
     room_count = rooms.count()
+    print(queryString)
+    recent_posts = Message.objects.filter(Q(room__topic__name__icontains=queryString))
 
-    context = {'rooms': rooms, 'topics': topics,
-               'room_count': room_count, 'recent_posts': recent_posts}
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'recent_posts': recent_posts}
     return render(request, 'base/home.html', context)
 
 
@@ -102,8 +102,7 @@ def room(request, pk):
         room.participants.add(request.user)
         return redirect('room', pk=room.id)
 
-    context = {'room': room, 'room_messages': room_messages,
-               'participants': participants}
+    context = {'room': room, 'room_messages': room_messages, 'participants': participants}
     return render(request, 'base/room.html', context)
 
 
@@ -152,8 +151,6 @@ def deleteRoom(request, pk):
 
 @login_required(login_url='login')
 def deleteMessage(request, pk):
-    queryString = request.GET.get('q') if request.GET.get('q') != None else ''
-
     message = Message.objects.get(id=pk)
     if request.user != message.user:
         return HttpResponse('You are not the owner of this message')
