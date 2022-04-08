@@ -41,10 +41,12 @@
         </div>
         <div class="activity">
             <h3>Recent Activities</h3>
-            {% for room in room_messages %}
+            <hr />
+            {% for post in recent_posts %}
                 <div>
-                    <span>@{{ room.user.username }}</span>
-                    <small>{{ room.body }}</small>
+                    <small>{{ post.user }} {{ post.created|timesince }}</small>
+                    <small>replied to {{ post.room }}</small>
+                    <p>{{ post }}</p>
                     <hr />
                 </div>
             {% endfor %}
