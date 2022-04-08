@@ -107,6 +107,14 @@ def room(request, pk):
 
 
 @login_required(login_url='login')
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    context = {'user': user, 'rooms': rooms}
+    return render(request, 'base/profile.html', context)
+
+
+@login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
     if request.method == 'POST':
