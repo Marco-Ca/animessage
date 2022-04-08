@@ -16,6 +16,7 @@
                 {% for message in messages %}<li>{{ message }}</li>{% endfor %}
             </ul>
         {% endif %}
+        {% comment %} <img src="{% static 'images/Hashira.PNG' %}" /> {% endcomment %}
         <!-- tell our website where to add child templates when we wrap them in the main template -->
         {% block content %}
         {% endblock content %}
